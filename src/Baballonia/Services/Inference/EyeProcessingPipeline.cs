@@ -16,6 +16,7 @@ public class EyeProcessingPipeline : DefaultProcessingPipeline, IDisposable
     }
 
     public bool StabilizeEyes { get; set; } = true;
+    public IEyelidEnhancer? EyelidEnhancer { get; set; }
 
     public float[]? RunUpdate()
     {
@@ -32,6 +33,7 @@ public class EyeProcessingPipeline : DefaultProcessingPipeline, IDisposable
         if(transformed == null)
             return null;
 
+        EyelidEnhancer?.CaptureEyeImages(transformed);
         _eyePipelineEventBus.Publish(new EyePipelineEvents.NewTransformedFrameEvent(transformed));
 
         var collected = _imageCollector.Apply(transformed);
@@ -48,6 +50,7 @@ public class EyeProcessingPipeline : DefaultProcessingPipeline, IDisposable
         if(inferenceResult == null)
             return null;
 
+        EyelidEnhancer?.Enhance(inferenceResult);
         if (Filter != null)
         {
             inferenceResult = Filter.Filter(inferenceResult);
@@ -120,6 +123,7 @@ public class EyeProcessingPipeline : DefaultProcessingPipeline, IDisposable
         TryDisposeObject(Filter);
         TryDisposeObject(_fastCorruptionDetector);
         TryDisposeObject(_imageCollector);
+        TryDisposeObject(EyelidEnhancer);
     }
 
     private void TryDisposeObject(object? obj)

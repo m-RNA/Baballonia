@@ -29,6 +29,10 @@
           Spacing="12">
           <Button Command="{Binding ResetMinimumsCommand}" Content="{x:Static assets:Resources.Calibration_Reset_Minimums}" />
           <Button Command="{Binding ResetMaximumsCommand}" Content="{x:Static assets:Resources.Calibration_Reset_Maximums}" />
+          <Button
+            Command="{Binding CalibrateEyelidsCommand}"
+            Content="{x:Static assets:Resources.Calibration_Eyelid_Button}"
+            IsEnabled="{Binding CanStartEyelidCalibration}" />
         </StackPanel>
       </Grid>
 
@@ -53,8 +57,17 @@
         <StackPanel Orientation="Horizontal" Spacing="12">
           <Button Command="{Binding ResetMinimumsCommand}" Content="{x:Static assets:Resources.Calibration_Reset_Minimums}" />
           <Button Command="{Binding ResetMaximumsCommand}" Content="{x:Static assets:Resources.Calibration_Reset_Maximums}" />
+          <Button
+            Command="{Binding CalibrateEyelidsCommand}"
+            Content="{x:Static assets:Resources.Calibration_Eyelid_Button}"
+            IsEnabled="{Binding CanStartEyelidCalibration}" />
         </StackPanel>
       </StackPanel>
+
+      <TextBlock
+        Margin="0,4,0,0"
+        Classes="Caption"
+        Text="{Binding EyelidCalibrationStatus}" />
 
       <!--  Eye Expressions Expander  -->
       <Expander Margin="0,12,0,0" HorizontalAlignment="Stretch">

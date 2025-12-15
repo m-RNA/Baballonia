@@ -338,6 +338,12 @@
           SettingToggled="{Binding UseGPU, Mode=TwoWay}" />
 
       <controls:SettingsToggle
+          Title="{x:Static assets:Resources.Settings_EyelidEnhancer_Header}"
+          Description="{x:Static assets:Resources.Settings_EyelidEnhancer_Description}"
+          IconPath="EyeTrackingRegular"
+          SettingToggled="{Binding EyelidEnhancerEnabled, Mode=TwoWay}" />
+
+      <controls:SettingsToggle
           Title="{x:Static assets:Resources.Calibration_Eye_Expressions_Stabilize_Eyes_Header}"
           Description="{x:Static assets:Resources.Calibration_Eye_Expressions_Stabilize_Eyes_Description}"
           IconPath="EyeTrackingRegular"
