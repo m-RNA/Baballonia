@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Baballonia.Contracts;
 using Baballonia.Services.Inference;
@@ -50,6 +51,7 @@ public class EyePipelineManager
         _ = LoadInferenceAsync();
         LoadFilter();
         LoadEyeStabilization();
+        LoadEyelidEnhancer();
     }
 
     public async Task LoadInferenceAsync()
@@ -102,6 +104,51 @@ public class EyePipelineManager
     {
         var stabilizeEyes = _localSettings.ReadSetting<bool>("AppSettings_StabilizeEyes", true);
         _pipeline.StabilizeEyes = stabilizeEyes;
+    }
+
+    public Task<bool> CalibrateEyelidsAsync(TimeSpan duration, CancellationToken cancellationToken = default)
+    {
+        if (_pipeline.EyelidEnhancer == null)
+        {
+            _logger.LogWarning("Eyelid calibration requested but enhancer is not available.");
+            return Task.FromResult(false);
+        }
+
+        return _pipeline.EyelidEnhancer.CalibrateAsync(duration, cancellationToken);
+    }
+
+    internal void LoadEyelidEnhancer()
+    {
+        (_pipeline.EyelidEnhancer as IDisposable)?.Dispose();
+        _pipeline.EyelidEnhancer = null;
+
+        // Read setting; default true for backward compatibility
+        var enabled = _localSettings.ReadSetting<bool>("EyeHome_EnablePfldEyelidModel", true);
+        if (!enabled)
+        {
+            _logger.LogInformation("Pfld eyelid enhancer disabled through settings.");
+            return;
+        }
+
+        const string defaultModelName = "pfld-sim.onnx";
+        var modelName = _localSettings.ReadSetting<string>("EyeHome_EyelidModel", defaultModelName);
+        var modelPath = Path.Combine(AppContext.BaseDirectory, modelName);
+        if (!File.Exists(modelPath))
+        {
+            _logger.LogWarning("Pfld eyelid model {ModelPath} was not found; enhancer disabled.", modelPath);
+            return;
+        }
+
+        try
+        {
+            var runner = _inferenceFactory.Create(modelPath);
+            _pipeline.EyelidEnhancer = new PfldSimEyelidEnhancer(runner, _logger, _localSettings);
+            _logger.LogInformation("Initialized pfld eyelid enhancer with {Model}", modelName);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to initialize pfld eyelid enhancer using {ModelPath}", modelPath);
+        }
     }
 
     public void SetLeftTransformation(CameraSettings cameraSettings)

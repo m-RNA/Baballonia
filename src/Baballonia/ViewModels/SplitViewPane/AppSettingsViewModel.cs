@@ -54,6 +54,10 @@ public partial class AppSettingsViewModel : ViewModelBase
     private bool _useGPU;
 
     [ObservableProperty]
+    [property: SavedSetting("EyeHome_EnablePfldEyelidModel", true)]
+    private bool _eyelidEnhancerEnabled;
+
+    [ObservableProperty]
     [property: SavedSetting("AppSettings_SteamvrAutoStart", true)]
     private bool _steamvrAutoStart;
 
@@ -130,6 +134,10 @@ public partial class AppSettingsViewModel : ViewModelBase
             if (p.PropertyName == nameof(StabilizeEyes))
             {
                 _eyePipelineManager.LoadEyeStabilization();
+            }
+            if (p.PropertyName == "EyelidEnhancerEnabled")
+            {
+                _eyePipelineManager.LoadEyelidEnhancer();
             }
         };
     }
