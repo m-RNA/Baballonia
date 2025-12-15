@@ -228,6 +228,24 @@
   <data name="Calibration_Reset_Maximums" xml:space="preserve">
     <value>Reset Maximums</value>
   </data>
+  <data name="Calibration_Eyelid_Status_Unavailable" xml:space="preserve">
+    <value>Eyelid calibration unavailable. Ensure the pfld model is enabled.</value>
+  </data>
+  <data name="Calibration_Eyelid_Status_Error" xml:space="preserve">
+    <value>Eyelid calibration failed: {0}</value>
+  </data>
+  <data name="Calibration_Eyelid_Status_Canceled" xml:space="preserve">
+    <value>Eyelid calibration canceled.</value>
+  </data>
+  <data name="Calibration_Eyelid_Status_Done" xml:space="preserve">
+    <value>Eyelid calibration complete.</value>
+  </data>
+  <data name="Calibration_Eyelid_Status_Collecting" xml:space="preserve">
+    <value>Collecting eyelid samples... blink and open naturally.</value>
+  </data>
+  <data name="Calibration_Eyelid_Button" xml:space="preserve">
+    <value>Calibrate Eyelids Openness (3s)</value>
+  </data>
   <data name="Calibration_Eye_Expressions_Header" xml:space="preserve">
     <value>Eye Expressions</value>
   </data>
@@ -752,5 +770,11 @@
   </data>
   <data name="Godot_Locale" xml:space="preserve">
       <value>en</value>
+  </data>
+  <data name="Settings_EyelidEnhancer_Header" xml:space="preserve">
+    <value>Use eyelid enhancer</value>
+  </data>
+  <data name="Settings_EyelidEnhancer_Description" xml:space="preserve">
+    <value>Runs the ETVT's model for Eyelid Tracking / smoother blinks (higher CPU/GPU usage)</value>
   </data>
 </root>

@@ -154,6 +154,10 @@
 	  <EmbeddedResource Include="eyeModel.onnx">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	  <None Remove="pfld-sim.onnx" />
+	  <EmbeddedResource Include="pfld-sim.onnx">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Firmware\Linux\" />

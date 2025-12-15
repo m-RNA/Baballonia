@@ -228,6 +228,24 @@
   <data name="Calibration_Reset_Maximums" xml:space="preserve">
     <value>Reset Maximums</value>
   </data>
+  <data name="Calibration_Eyelid_Status_Unavailable" xml:space="preserve">
+    <value>EVRT模型不可用，请先打开增强眼皮追踪</value>
+  </data>
+  <data name="Calibration_Eyelid_Status_Error" xml:space="preserve">
+    <value>校准眼皮开合度出错</value>
+  </data>
+  <data name="Calibration_Eyelid_Status_Canceled" xml:space="preserve">
+    <value>校准眼皮开合度取消</value>
+  </data>
+  <data name="Calibration_Eyelid_Status_Done" xml:space="preserve">
+    <value>校准眼皮开合度完成</value>
+  </data>
+  <data name="Calibration_Eyelid_Status_Collecting" xml:space="preserve">
+    <value>采集眼皮开合样本中，请反复自然眨眼...</value>
+  </data>
+  <data name="Calibration_Eyelid_Button" xml:space="preserve">
+    <value>校准眼皮开合度(3s)</value>
+  </data>
   <data name="Calibration_Eye_Expressions_Header" xml:space="preserve">
     <value>眼睛表达式</value>
   </data>
@@ -732,5 +750,11 @@
   </data>
   <data name="Settings_SteamVR_Auto_Start_Description" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
+  </data>
+  <data name="Settings_EyelidEnhancer_Header" xml:space="preserve">
+    <value>增强眼皮追踪</value>
+  </data>
+  <data name="Settings_EyelidEnhancer_Description" xml:space="preserve">
+    <value>运行EVRT的眼追模型获取眼皮开合度（占用更多 GPU / CPU ）</value>
   </data>
 </root>
