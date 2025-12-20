@@ -145,6 +145,27 @@ public partial class AppSettingsViewModel : ViewModelBase
             }
         };
     }
+    partial void OnEyelidModeChanged(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return;
+
+        var mode = value switch
+        {
+            "LeftOnly" => EyeProcessingPipeline.EyelidMode.LeftOnly,
+            "RightOnly" => EyeProcessingPipeline.EyelidMode.RightOnly,
+            _ => EyeProcessingPipeline.EyelidMode.Both
+        };
+
+        try
+        {
+            _eyePipelineManager.SetEyelidMode(mode);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Failed to set eyelid mode");
+        }
+    }
 
     partial void OnSteamvrAutoStartChanged(bool value)
     {

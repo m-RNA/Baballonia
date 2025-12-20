@@ -114,6 +114,19 @@ public class EyePipelineManager
         _pipeline.StabilizeEyes = stabilizeEyes;
     }
 
+    public void SetEyelidMode(EyeProcessingPipeline.EyelidMode mode)
+    {
+        _pipeline.EyelidModeSetting = mode;
+        try
+        {
+            _localSettings.SaveSetting("EyeHome_EyelidMode", mode.ToString());
+        }
+        catch { }
+
+        // Recreate enhancer to pick up new mode
+        LoadEyelidEnhancer();
+    }
+
     public Task<bool> CalibrateEyelidsAsync(TimeSpan duration, CancellationToken cancellationToken = default)
     {
         if (_pipeline.EyelidEnhancer == null)
