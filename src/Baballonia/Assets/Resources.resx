@@ -777,4 +777,19 @@
   <data name="Settings_EyelidEnhancer_Description" xml:space="preserve">
     <value>Runs the ETVT's model for Eyelid Tracking / smoother blinks (higher CPU/GPU usage)</value>
   </data>
+  <data name="Settings_EyelidMode_Header" xml:space="preserve">
+    <value>Eyelid calculation dominant eye</value>
+  </data>
+  <data name="Settings_EyelidMode_Description" xml:space="preserve">
+    <value>Choosing a single-eye mode (LeftOnly or RightOnly) can reduce GPU/CPU usage</value>
+  </data>
+  <data name="Settings_EyelidMode_Both" xml:space="preserve">
+    <value>Both Eyes</value>
+  </data>
+  <data name="Settings_EyelidMode_LeftOnly" xml:space="preserve">
+    <value>Left Eye</value>
+  </data>
+  <data name="Settings_EyelidMode_RightOnly" xml:space="preserve">
+    <value>Right Eye</value>
+  </data>
 </root>
