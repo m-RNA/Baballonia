@@ -113,7 +113,7 @@ public sealed class PfldSimEyelidEnhancer : IEyelidEnhancer
                 {
                     // Use left eye value for both sides
                     expressions[2] = left.Value; // right lid
-                    expressions[5] = left.Value; // left lid
+                    //expressions[5] = left.Value; // left lid
                 }
                 break;
             }
@@ -123,7 +123,7 @@ public sealed class PfldSimEyelidEnhancer : IEyelidEnhancer
                 if (right.HasValue)
                 {
                     // Use right eye value for both sides
-                    expressions[2] = right.Value; // right lid
+                    //expressions[2] = right.Value; // right lid
                     expressions[5] = right.Value; // left lid
                 }
                 break;
