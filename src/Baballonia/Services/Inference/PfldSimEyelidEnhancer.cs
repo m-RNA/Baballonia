@@ -94,15 +94,18 @@ public sealed class PfldSimEyelidEnhancer : IEyelidEnhancer
             return;
 
         var left = ProcessEye(_leftEye, _leftTracker, true);
+        var right = ProcessEye(_rightEye, _rightTracker, false);
+
+        // Note: the expression array ordering expects index 2 to be the right-eye lid
+        // and index 5 to be the left-eye lid for downstream processing. Assign
+        // accordingly to avoid swapped outputs.
         if (left.HasValue)
         {
-            expressions[2] = left.Value;
+            expressions[5] = left.Value;
         }
-
-        var right = ProcessEye(_rightEye, _rightTracker, false);
         if (right.HasValue)
         {
-            expressions[5] = right.Value;
+            expressions[2] = right.Value;
         }
 
     }
