@@ -1339,6 +1339,51 @@ namespace Baballonia.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Both Eyes 的本地化字符串。
+        /// </summary>
+        public static string Settings_EyelidMode_Both {
+            get {
+                return ResourceManager.GetString("Settings_EyelidMode_Both", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Choosing a single-eye mode (LeftOnly or RightOnly) can reduce GPU/CPU usage 的本地化字符串。
+        /// </summary>
+        public static string Settings_EyelidMode_Description {
+            get {
+                return ResourceManager.GetString("Settings_EyelidMode_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Eyes for eyelid  的本地化字符串。
+        /// </summary>
+        public static string Settings_EyelidMode_Header {
+            get {
+                return ResourceManager.GetString("Settings_EyelidMode_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Left Eye 的本地化字符串。
+        /// </summary>
+        public static string Settings_EyelidMode_LeftOnly {
+            get {
+                return ResourceManager.GetString("Settings_EyelidMode_LeftOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Right Eye 的本地化字符串。
+        /// </summary>
+        public static string Settings_EyelidMode_RightOnly {
+            get {
+                return ResourceManager.GetString("Settings_EyelidMode_RightOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Filter Settings 的本地化字符串。
         /// </summary>
         public static string Settings_Filter_Description {

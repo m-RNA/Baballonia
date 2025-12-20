@@ -757,4 +757,19 @@
   <data name="Settings_EyelidEnhancer_Description" xml:space="preserve">
     <value>运行EVRT的眼追模型获取眼皮开合度（占用更多 GPU / CPU ）</value>
   </data>
+  <data name="Settings_EyelidMode_Header" xml:space="preserve">
+    <value>眼皮开合度的主导眼</value>
+  </data>
+  <data name="Settings_EyelidMode_Description" xml:space="preserve">
+    <value>选择单眼可以减少GPU/CPU使用</value>
+  </data>
+  <data name="Settings_EyelidMode_Both" xml:space="preserve">
+    <value>双眼</value>
+  </data>
+  <data name="Settings_EyelidMode_LeftOnly" xml:space="preserve">
+    <value>左眼</value>
+  </data>
+  <data name="Settings_EyelidMode_RightOnly" xml:space="preserve">
+    <value>右眼</value>
+  </data>
 </root>

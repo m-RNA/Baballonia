@@ -344,16 +344,16 @@
           SettingToggled="{Binding EyelidEnhancerEnabled, Mode=TwoWay}" />
 
       <controls:SettingsBlock
-          Title="Eyelid mode"
-          Description="Choose which eye to use for eyelid calculations(Single-eye mode can reduce GPU/CPU usage"
+          Title="{x:Static assets:Resources.Settings_EyelidMode_Header}"
+          Description="{x:Static assets:Resources.Settings_EyelidMode_Description}"
           IconPath="EyeTrackingRegular">
         <controls:SettingsBlock.SettingsContent>
             <ComboBox
                 x:Name="EyelidModeCombo"
                 VerticalAlignment="Center">
-              <ComboBoxItem Content="Both" />
-              <ComboBoxItem Content="LeftOnly" />
-              <ComboBoxItem Content="RightOnly" />
+              <ComboBoxItem Tag="Both" Content="{x:Static assets:Resources.Settings_EyelidMode_Both}" />
+              <ComboBoxItem Tag="LeftOnly" Content="{x:Static assets:Resources.Settings_EyelidMode_LeftOnly}" />
+              <ComboBoxItem Tag="RightOnly" Content="{x:Static assets:Resources.Settings_EyelidMode_RightOnly}" />
             </ComboBox>
         </controls:SettingsBlock.SettingsContent>
       </controls:SettingsBlock>

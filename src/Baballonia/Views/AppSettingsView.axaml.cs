@@ -155,8 +155,9 @@ public partial class AppSettingsView : UserControl
 
         if (DataContext is not AppSettingsViewModel vm) return;
 
-        var content = comboBoxItem.Content?.ToString() ?? "Both";
-        vm.EyelidMode = content;
+        // Use the invariant Tag value for the ViewModel/setting, Content is localized
+        var tag = comboBoxItem.Tag?.ToString() ?? "Both";
+        vm.EyelidMode = tag;
     }
 
     // Workaround for https://github.com/AvaloniaUI/Avalonia/issues/4460
