@@ -17,6 +17,7 @@ public partial class AppSettingsView : UserControl
     private readonly ILanguageSelectorService _languageSelectorService;
     private readonly ComboBox _themeComboBox;
     private readonly ComboBox _langComboBox;
+    private readonly ComboBox _eyelidModeCombo;
     private readonly NumericUpDown _selectedMinFreqCutoffUpDown;
     private readonly NumericUpDown _selectedSpeedCutoffUpDown;
 
@@ -31,6 +32,12 @@ public partial class AppSettingsView : UserControl
         _languageSelectorService = Ioc.Default.GetService<ILanguageSelectorService>()!;
         _langComboBox = this.Find<ComboBox>("LangCombo")!;
         _langComboBox.SelectionChanged += LangComboBox_SelectionChanged;
+
+        _eyelidModeCombo = this.Find<ComboBox>("EyelidModeCombo")!;
+        _eyelidModeCombo.SelectionChanged += EyelidModeCombo_SelectionChanged;
+
+        // Ensure the combo reflects the ViewModel value when DataContext is set or changed
+        this.DataContextChanged += AppSettingsView_DataContextChanged;
 
         _selectedMinFreqCutoffUpDown = this.Find<NumericUpDown>("SelectedMinFreqCutoffUpDown")!;
         _selectedSpeedCutoffUpDown = this.Find<NumericUpDown>("SelectedSpeedCutoffUpDown")!;
@@ -99,6 +106,24 @@ public partial class AppSettingsView : UserControl
     ~AppSettingsView()
     {
         _themeComboBox.SelectionChanged -= ThemeComboBox_SelectionChanged;
+        _langComboBox.SelectionChanged -= LangComboBox_SelectionChanged;
+        _eyelidModeCombo.SelectionChanged -= EyelidModeCombo_SelectionChanged;
+        this.DataContextChanged -= AppSettingsView_DataContextChanged;
+    }
+
+    private void AppSettingsView_DataContextChanged(object? sender, System.EventArgs e)
+    {
+        if (DataContext is not AppSettingsViewModel vm) return;
+
+        int index = vm.EyelidMode switch
+        {
+            "Both" => 0,
+            "LeftOnly" => 1,
+            "RightOnly" => 2,
+            _ => 0
+        };
+
+        _eyelidModeCombo.SelectedIndex = index;
     }
 
     private void ThemeComboBox_SelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -121,6 +146,17 @@ public partial class AppSettingsView : UserControl
     {
         var item = _langComboBox.SelectedItem as ComboBoxItem;
         _languageSelectorService.SetLanguage(item!.Tag!.ToString()!);
+    }
+
+    private void EyelidModeCombo_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (_eyelidModeCombo.SelectedItem is not ComboBoxItem comboBoxItem)
+            return;
+
+        if (DataContext is not AppSettingsViewModel vm) return;
+
+        var content = comboBoxItem.Content?.ToString() ?? "Both";
+        vm.EyelidMode = content;
     }
 
     // Workaround for https://github.com/AvaloniaUI/Avalonia/issues/4460

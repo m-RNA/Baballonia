@@ -343,6 +343,21 @@
           IconPath="EyeTrackingRegular"
           SettingToggled="{Binding EyelidEnhancerEnabled, Mode=TwoWay}" />
 
+      <controls:SettingsBlock
+          Title="Eyelid mode"
+          Description="Choose which eye to use for eyelid calculations"
+          IconPath="EyeTrackingRegular">
+        <controls:SettingsBlock.SettingsContent>
+          <ComboBox
+              x:Name="EyelidModeCombo"
+              VerticalAlignment="Center">
+            <ComboBoxItem Content="Both" />
+            <ComboBoxItem Content="LeftOnly" />
+            <ComboBoxItem Content="RightOnly" />
+          </ComboBox>
+        </controls:SettingsBlock.SettingsContent>
+      </controls:SettingsBlock>
+
       <controls:SettingsToggle
           Title="{x:Static assets:Resources.Calibration_Eye_Expressions_Stabilize_Eyes_Header}"
           Description="{x:Static assets:Resources.Calibration_Eye_Expressions_Stabilize_Eyes_Description}"
