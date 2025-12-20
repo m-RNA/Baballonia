@@ -58,6 +58,10 @@ public partial class AppSettingsViewModel : ViewModelBase
     private bool _eyelidEnhancerEnabled;
 
     [ObservableProperty]
+    [property: SavedSetting("EyeHome_EyelidMode", "Both")]
+    private string _EyelidMode = "Both";
+
+    [ObservableProperty]
     [property: SavedSetting("AppSettings_SteamvrAutoStart", true)]
     private bool _steamvrAutoStart;
 

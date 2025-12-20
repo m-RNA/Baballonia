@@ -15,6 +15,16 @@ public class EyeProcessingPipeline : DefaultProcessingPipeline, IDisposable
         _eyePipelineEventBus = eyePipelineEventBus;
     }
 
+    public enum EyelidMode
+    {
+        Both,
+        LeftOnly,
+        RightOnly
+    }
+
+    // Generalized mode: can force mirroring of eyelid values
+    public EyelidMode EyelidModeSetting { get; set; } = EyelidMode.Both;
+
     public bool StabilizeEyes { get; set; } = true;
     public IEyelidEnhancer? EyelidEnhancer { get; set; }
 
@@ -81,6 +91,19 @@ public class EyeProcessingPipeline : DefaultProcessingPipeline, IDisposable
         var rightPitch = arKitExpressions[3] * mulY - mulY / 2;
         var rightYaw = arKitExpressions[4] * mulV - mulV / 2;
         var rightLid = 1 - arKitExpressions[5];
+
+        // Apply global eyelid mode: allow mirroring single-eye data even without an enhancer
+        switch (EyelidModeSetting)
+        {
+            case EyelidMode.LeftOnly:
+                rightLid = leftLid;
+                break;
+            case EyelidMode.RightOnly:
+                leftLid = rightLid;
+                break;
+            default:
+                break;
+        }
 
         var eyeY = (leftPitch * leftLid + rightPitch * rightLid) / (leftLid + rightLid);
 

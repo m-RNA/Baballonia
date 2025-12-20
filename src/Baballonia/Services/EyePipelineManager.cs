@@ -47,6 +47,14 @@ public class EyePipelineManager
         dualTransformer.LeftTransformer.TargetSize = new Size(128, 128);
         dualTransformer.RightTransformer.TargetSize = new Size(128, 128);
         _pipeline.ImageTransformer = dualTransformer;
+        // Read generalized eyelid mode setting so mirroring can be applied even when enhancer is not used
+        var modeStr = _localSettings.ReadSetting<string>("EyeHome_EyelidMode", "Both");
+        _pipeline.EyelidModeSetting = modeStr switch
+        {
+            "LeftOnly" => EyeProcessingPipeline.EyelidMode.LeftOnly,
+            "RightOnly" => EyeProcessingPipeline.EyelidMode.RightOnly,
+            _ => EyeProcessingPipeline.EyelidMode.Both
+        };
 
         _ = LoadInferenceAsync();
         LoadFilter();
@@ -142,8 +150,17 @@ public class EyePipelineManager
         try
         {
             var runner = _inferenceFactory.Create(modelPath);
-            _pipeline.EyelidEnhancer = new PfldSimEyelidEnhancer(runner, _logger, _localSettings);
-            _logger.LogInformation("Initialized pfld eyelid enhancer with {Model}", modelName);
+            // Read mode setting: "Both" (default), "LeftOnly", "RightOnly"
+            var modeStr = _localSettings.ReadSetting<string>("EyeHome_EyelidMode", "Both");
+            var mode = modeStr switch
+            {
+                "LeftOnly" => EyeProcessingPipeline.EyelidMode.LeftOnly,
+                "RightOnly" => EyeProcessingPipeline.EyelidMode.RightOnly,
+                _ => EyeProcessingPipeline.EyelidMode.Both
+            };
+
+            _pipeline.EyelidEnhancer = new PfldSimEyelidEnhancer(runner, _logger, _localSettings, mode);
+            _logger.LogInformation("Initialized pfld eyelid enhancer with {Model} (mode={Mode})", modelName, mode);
         }
         catch (Exception ex)
         {

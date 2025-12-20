@@ -34,12 +34,14 @@ public sealed class PfldSimEyelidEnhancer : IEyelidEnhancer
     private bool _warnedAboutChannels;
     private TaskCompletionSource<bool>? _calibrationTcs;
     private CancellationTokenRegistration _calibrationCancellationRegistration;
+    private readonly EyeProcessingPipeline.EyelidMode _mode;
 
-    public PfldSimEyelidEnhancer(DefaultInferenceRunner inferenceRunner, ILogger? logger = null, ILocalSettingsService? localSettings = null)
+    public PfldSimEyelidEnhancer(DefaultInferenceRunner inferenceRunner, ILogger? logger = null, ILocalSettingsService? localSettings = null, EyeProcessingPipeline.EyelidMode mode = EyeProcessingPipeline.EyelidMode.Both)
     {
         _inferenceRunner = inferenceRunner;
         _logger = logger;
         _localSettings = localSettings;
+        _mode = mode;
         LoadPersistedCalibration();
     }
 
@@ -93,19 +95,39 @@ public sealed class PfldSimEyelidEnhancer : IEyelidEnhancer
         if (expressions == null || expressions.Length < 6)
             return;
 
-        var left = ProcessEye(_leftEye, _leftTracker, true);
-        var right = ProcessEye(_rightEye, _rightTracker, false);
-
-        // Note: the expression array ordering expects index 2 to be the right-eye lid
-        // and index 5 to be the left-eye lid for downstream processing. Assign
-        // accordingly to avoid swapped outputs.
-        if (left.HasValue)
+        // Compute according to configured mode. Downstream expects index 2 = right lid, index 5 = left lid.
+        switch (_mode)
         {
-            expressions[5] = left.Value;
-        }
-        if (right.HasValue)
-        {
-            expressions[2] = right.Value;
+            case EyeProcessingPipeline.EyelidMode.Both:
+            {
+                var left = ProcessEye(_leftEye, _leftTracker, true);
+                var right = ProcessEye(_rightEye, _rightTracker, false);
+                if (right.HasValue) expressions[2] = right.Value;
+                if (left.HasValue) expressions[5] = left.Value;
+                break;
+            }
+            case EyeProcessingPipeline.EyelidMode.LeftOnly:
+            {
+                var left = ProcessEye(_leftEye, _leftTracker, true);
+                if (left.HasValue)
+                {
+                    // Use left eye value for both sides
+                    expressions[2] = left.Value; // right lid
+                    expressions[5] = left.Value; // left lid
+                }
+                break;
+            }
+            case EyeProcessingPipeline.EyelidMode.RightOnly:
+            {
+                var right = ProcessEye(_rightEye, _rightTracker, false);
+                if (right.HasValue)
+                {
+                    // Use right eye value for both sides
+                    expressions[2] = right.Value; // right lid
+                    expressions[5] = right.Value; // left lid
+                }
+                break;
+            }
         }
 
     }
