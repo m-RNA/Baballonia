@@ -229,7 +229,7 @@
     <value>Reset Maximums</value>
   </data>
   <data name="Calibration_Eyelid_Status_Unavailable" xml:space="preserve">
-    <value>EVRT模型不可用，请先打开增强眼皮追踪</value>
+    <value>ETVR模型不可用，请先打开增强眼皮追踪</value>
   </data>
   <data name="Calibration_Eyelid_Status_Error" xml:space="preserve">
     <value>校准眼皮开合度出错</value>
@@ -755,7 +755,7 @@
     <value>增强眼皮追踪</value>
   </data>
   <data name="Settings_EyelidEnhancer_Description" xml:space="preserve">
-    <value>运行EVRT的眼追模型获取眼皮开合度（占用更多 GPU / CPU ）</value>
+    <value>运行ETVR的眼追模型获取眼皮开合度（占用更多 GPU / CPU ）</value>
   </data>
   <data name="Settings_EyelidMode_Header" xml:space="preserve">
     <value>眼皮开合度的主导眼</value>
