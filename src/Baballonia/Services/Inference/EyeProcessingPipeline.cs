@@ -92,7 +92,13 @@ public class EyeProcessingPipeline : DefaultProcessingPipeline, IDisposable
         var rightYaw = arKitExpressions[4] * mulV - mulV / 2;
         var rightLid = 1 - arKitExpressions[5];
 
-        // Apply global eyelid mode: allow mirroring single-eye data even without an enhancer
+        // Swap eyelids if needed, Strange but necessary QWQ
+        if (EyelidEnhancer == null && EyelidModeSetting != EyelidMode.Both)
+        {
+            (rightLid, leftLid) = (leftLid, rightLid);
+        }
+
+        // Apply global eyelid mode: allow mirroring single-eye data
         switch (EyelidModeSetting)
         {
             case EyelidMode.LeftOnly:
