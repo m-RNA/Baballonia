@@ -337,12 +337,6 @@
           IconPath="TopSpeedRegular"
           SettingToggled="{Binding UseGPU, Mode=TwoWay}" />
 
-      <controls:SettingsToggle
-          Title="{x:Static assets:Resources.Settings_EyelidEnhancer_Header}"
-          Description="{x:Static assets:Resources.Settings_EyelidEnhancer_Description}"
-          IconPath="EyeTrackingRegular"
-          SettingToggled="{Binding EyelidEnhancerEnabled, Mode=TwoWay}" />
-
       <controls:SettingsBlock
           Title="{x:Static assets:Resources.Settings_EyelidMode_Header}"
           Description="{x:Static assets:Resources.Settings_EyelidMode_Description}"
@@ -357,6 +351,12 @@
             </ComboBox>
         </controls:SettingsBlock.SettingsContent>
       </controls:SettingsBlock>
+
+      <controls:SettingsToggle
+          Title="{x:Static assets:Resources.Settings_EyelidEnhancer_Header}"
+          Description="{x:Static assets:Resources.Settings_EyelidEnhancer_Description}"
+          IconPath="EyeTrackingRegular"
+          SettingToggled="{Binding EyelidEnhancerEnabled, Mode=TwoWay}" />
 
       <controls:SettingsToggle
           Title="{x:Static assets:Resources.Calibration_Eye_Expressions_Stabilize_Eyes_Header}"
