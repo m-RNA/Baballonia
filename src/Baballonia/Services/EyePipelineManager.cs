@@ -147,10 +147,34 @@ public class EyePipelineManager
         var enabled = _localSettings.ReadSetting<bool>("EyeHome_EnablePfldEyelidModel", true);
         if (!enabled)
         {
-            _logger.LogInformation("Pfld eyelid enhancer disabled through settings.");
+            _logger.LogInformation("Eyelid enhancer disabled through settings.");
             return;
         }
 
+        // Read enhancer type: "pfld" (default, landmark-based) or "classifier" (6-class eye state)
+        var enhancerType = _localSettings.ReadSetting<string>("EyeHome_EyelidEnhancerType", "classifier");
+        
+        // Read mode setting: "Both" (default), "LeftOnly", "RightOnly"
+        var modeStr = _localSettings.ReadSetting<string>("EyeHome_EyelidMode", "Both");
+        var mode = modeStr switch
+        {
+            "LeftOnly" => EyeProcessingPipeline.EyelidMode.LeftOnly,
+            "RightOnly" => EyeProcessingPipeline.EyelidMode.RightOnly,
+            _ => EyeProcessingPipeline.EyelidMode.Both
+        };
+
+        if (enhancerType.Equals("classifier", StringComparison.OrdinalIgnoreCase))
+        {
+            LoadEyeStateClassifierEnhancer(mode);
+        }
+        else
+        {
+            LoadPfldSimEnhancer(mode);
+        }
+    }
+
+    private void LoadPfldSimEnhancer(EyeProcessingPipeline.EyelidMode mode)
+    {
         const string defaultModelName = "pfld-sim.onnx";
         var modelName = _localSettings.ReadSetting<string>("EyeHome_EyelidModel", defaultModelName);
         var modelPath = Path.Combine(AppContext.BaseDirectory, modelName);
@@ -163,21 +187,35 @@ public class EyePipelineManager
         try
         {
             var runner = _inferenceFactory.Create(modelPath);
-            // Read mode setting: "Both" (default), "LeftOnly", "RightOnly"
-            var modeStr = _localSettings.ReadSetting<string>("EyeHome_EyelidMode", "Both");
-            var mode = modeStr switch
-            {
-                "LeftOnly" => EyeProcessingPipeline.EyelidMode.LeftOnly,
-                "RightOnly" => EyeProcessingPipeline.EyelidMode.RightOnly,
-                _ => EyeProcessingPipeline.EyelidMode.Both
-            };
-
             _pipeline.EyelidEnhancer = new PfldSimEyelidEnhancer(runner, _logger, _localSettings, mode);
             _logger.LogInformation("Initialized pfld eyelid enhancer with {Model} (mode={Mode})", modelName, mode);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to initialize pfld eyelid enhancer using {ModelPath}", modelPath);
+        }
+    }
+
+    private void LoadEyeStateClassifierEnhancer(EyeProcessingPipeline.EyelidMode mode)
+    {
+        const string defaultModelName = "eyestate-classifier-v4.onnx";
+        var modelName = _localSettings.ReadSetting<string>("EyeHome_EyeStateClassifierModel", defaultModelName);
+        var modelPath = Path.Combine(AppContext.BaseDirectory, modelName);
+        if (!File.Exists(modelPath))
+        {
+            _logger.LogWarning("Eye state classifier model {ModelPath} was not found; enhancer disabled.", modelPath);
+            return;
+        }
+
+        try
+        {
+            var runner = _inferenceFactory.Create(modelPath);
+            _pipeline.EyelidEnhancer = new EyeStateClassifierEyelidEnhancer(runner, _logger, mode);
+            _logger.LogInformation("Initialized eye state classifier enhancer with {Model} (mode={Mode})", modelName, mode);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to initialize eye state classifier enhancer using {ModelPath}", modelPath);
         }
     }
 

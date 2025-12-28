@@ -110,7 +110,11 @@
     </ItemGroup>
 
 	<ItemGroup>
+		<None Remove="eyestate-classifier-v4.onnx" />
 		<None Remove="faceModel.onnx" />
+		<EmbeddedResource Include="eyestate-classifier-v4.onnx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
 		<EmbeddedResource Include="faceModel.onnx">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</EmbeddedResource>
