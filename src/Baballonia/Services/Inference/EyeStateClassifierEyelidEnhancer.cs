@@ -172,15 +172,15 @@ public sealed class EyeStateClassifierEyelidEnhancer : IEyelidEnhancer
             // So we need to write: expressions[2] = 1 - leftOpenness = closed + winkLeft
             //                      expressions[5] = 1 - rightOpenness = closed + winkRight
 
-            var leftLidValue = Math.Clamp(closed + winkLeft, 0.0f, 1.0f);
-            var rightLidValue = Math.Clamp(closed + winkRight, 0.0f, 1.0f);
+            var leftLidValue = Math.Clamp(closed + squint * 0.5f + winkLeft - winkRight - wide, 0.0f, 1.0f);
+            var rightLidValue = Math.Clamp(closed + squint * 0.5f - winkLeft + winkRight - wide, 0.0f, 1.0f);
 
             // Apply based on mode
             switch (_mode)
             {
                 case EyeProcessingPipeline.EyelidMode.Both:
-                    expressions[2] = leftLidValue;
-                    expressions[5] = rightLidValue;
+                    expressions[2] = rightLidValue;
+                    expressions[5] = leftLidValue;
                     break;
 
                 case EyeProcessingPipeline.EyelidMode.LeftOnly:
