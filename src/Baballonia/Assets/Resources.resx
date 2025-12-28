@@ -772,10 +772,19 @@
       <value>en</value>
   </data>
   <data name="Settings_EyelidEnhancer_Header" xml:space="preserve">
-    <value>Use eyelid enhancer</value>
+    <value>Eyelid enhancer model</value>
   </data>
   <data name="Settings_EyelidEnhancer_Description" xml:space="preserve">
-    <value>Runs the ETVT's model for Eyelid Tracking / smoother blinks (higher CPU/GPU usage)</value>
+    <value>Select the eyelid tracking model type (higher CPU/GPU usage when enabled)</value>
+  </data>
+  <data name="Settings_EyelidEnhancer_Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Settings_EyelidEnhancer_Classifier" xml:space="preserve">
+    <value>Classifier</value>
+  </data>
+  <data name="Settings_EyelidEnhancer_Smoother" xml:space="preserve">
+    <value>Smoother (ETVR)</value>
   </data>
   <data name="Settings_EyelidMode_Header" xml:space="preserve">
     <value>Eyelid calculation dominant eye</value>

@@ -143,17 +143,15 @@ public class EyePipelineManager
         (_pipeline.EyelidEnhancer as IDisposable)?.Dispose();
         _pipeline.EyelidEnhancer = null;
 
-        // Read setting; default true for backward compatibility
-        var enabled = _localSettings.ReadSetting<bool>("EyeHome_EnablePfldEyelidModel", true);
-        if (!enabled)
+        // Read enhancer type: "disabled", "classifier" (6-class eye state), or "pfld" (landmark-based smoother)
+        var enhancerType = _localSettings.ReadSetting<string>("EyeHome_EyelidEnhancerType", "classifier");
+        
+        if (string.Equals(enhancerType, "disabled", StringComparison.OrdinalIgnoreCase))
         {
             _logger.LogInformation("Eyelid enhancer disabled through settings.");
             return;
         }
 
-        // Read enhancer type: "pfld" (default, landmark-based) or "classifier" (6-class eye state)
-        var enhancerType = _localSettings.ReadSetting<string>("EyeHome_EyelidEnhancerType", "classifier");
-        
         // Read mode setting: "Both" (default), "LeftOnly", "RightOnly"
         var modeStr = _localSettings.ReadSetting<string>("EyeHome_EyelidMode", "Both");
         var mode = modeStr switch
@@ -163,13 +161,19 @@ public class EyePipelineManager
             _ => EyeProcessingPipeline.EyelidMode.Both
         };
 
-        if (enhancerType.Equals("classifier", StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(enhancerType, "classifier", StringComparison.OrdinalIgnoreCase))
         {
             LoadEyeStateClassifierEnhancer(mode);
         }
-        else
+        else if (string.Equals(enhancerType, "pfld", StringComparison.OrdinalIgnoreCase))
         {
             LoadPfldSimEnhancer(mode);
+        }
+        else
+        {
+            // Fallback to classifier for unknown types
+            _logger.LogWarning("Unknown eyelid enhancer type '{Type}', falling back to classifier", enhancerType);
+            LoadEyeStateClassifierEnhancer(mode);
         }
     }
 

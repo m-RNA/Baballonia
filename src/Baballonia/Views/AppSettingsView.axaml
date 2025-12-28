@@ -352,11 +352,20 @@
         </controls:SettingsBlock.SettingsContent>
       </controls:SettingsBlock>
 
-      <controls:SettingsToggle
+      <controls:SettingsBlock
           Title="{x:Static assets:Resources.Settings_EyelidEnhancer_Header}"
           Description="{x:Static assets:Resources.Settings_EyelidEnhancer_Description}"
-          IconPath="EyeTrackingRegular"
-          SettingToggled="{Binding EyelidEnhancerEnabled, Mode=TwoWay}" />
+          IconPath="EyeTrackingRegular">
+        <controls:SettingsBlock.SettingsContent>
+            <ComboBox
+                x:Name="EyelidEnhancerTypeCombo"
+                VerticalAlignment="Center">
+              <ComboBoxItem Tag="disabled" Content="{x:Static assets:Resources.Settings_EyelidEnhancer_Disabled}" />
+              <ComboBoxItem Tag="classifier" Content="{x:Static assets:Resources.Settings_EyelidEnhancer_Classifier}" />
+              <ComboBoxItem Tag="pfld" Content="{x:Static assets:Resources.Settings_EyelidEnhancer_Smoother}" />
+            </ComboBox>
+        </controls:SettingsBlock.SettingsContent>
+      </controls:SettingsBlock>
 
       <controls:SettingsToggle
           Title="{x:Static assets:Resources.Calibration_Eye_Expressions_Stabilize_Eyes_Header}"

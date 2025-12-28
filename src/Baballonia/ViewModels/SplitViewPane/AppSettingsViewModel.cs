@@ -54,8 +54,8 @@ public partial class AppSettingsViewModel : ViewModelBase
     private bool _useGPU;
 
     [ObservableProperty]
-    [property: SavedSetting("EyeHome_EnablePfldEyelidModel", true)]
-    private bool _eyelidEnhancerEnabled;
+    [property: SavedSetting("EyeHome_EyelidEnhancerType", "classifier")]
+    private string _eyelidEnhancerType = "classifier";
 
     [ObservableProperty]
     [property: SavedSetting("EyeHome_EyelidMode", "Both")]
@@ -139,7 +139,7 @@ public partial class AppSettingsViewModel : ViewModelBase
             {
                 _eyePipelineManager.LoadEyeStabilization();
             }
-            if (p.PropertyName == "EyelidEnhancerEnabled")
+            if (p.PropertyName == nameof(EyelidEnhancerType))
             {
                 _eyePipelineManager.LoadEyelidEnhancer();
             }
@@ -165,6 +165,12 @@ public partial class AppSettingsViewModel : ViewModelBase
         {
             _logger.LogError(e, "Failed to set eyelid mode");
         }
+    }
+
+    partial void OnEyelidEnhancerTypeChanged(string value)
+    {
+        // Settings are saved via PropertyChanged handler, which also calls LoadEyelidEnhancer
+        // This partial method can be used for additional logic if needed
     }
 
     partial void OnSteamvrAutoStartChanged(bool value)

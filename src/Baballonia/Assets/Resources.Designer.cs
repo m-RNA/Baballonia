@@ -1321,7 +1321,16 @@ namespace Baballonia.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Runs the ETVT&apos;s model for Eyelid Tracking / smoother blinks (higher CPU/GPU usage) 的本地化字符串。
+        ///   查找类似 Classifier 的本地化字符串。
+        /// </summary>
+        public static string Settings_EyelidEnhancer_Classifier {
+            get {
+                return ResourceManager.GetString("Settings_EyelidEnhancer_Classifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select the eyelid tracking model type (higher CPU/GPU usage when enabled) 的本地化字符串。
         /// </summary>
         public static string Settings_EyelidEnhancer_Description {
             get {
@@ -1330,11 +1339,29 @@ namespace Baballonia.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Use eyelid enhancer 的本地化字符串。
+        ///   查找类似 Disabled 的本地化字符串。
+        /// </summary>
+        public static string Settings_EyelidEnhancer_Disabled {
+            get {
+                return ResourceManager.GetString("Settings_EyelidEnhancer_Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Eyelid enhancer model 的本地化字符串。
         /// </summary>
         public static string Settings_EyelidEnhancer_Header {
             get {
                 return ResourceManager.GetString("Settings_EyelidEnhancer_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Smoother (ETVR) 的本地化字符串。
+        /// </summary>
+        public static string Settings_EyelidEnhancer_Smoother {
+            get {
+                return ResourceManager.GetString("Settings_EyelidEnhancer_Smoother", resourceCulture);
             }
         }
         
@@ -1357,7 +1384,7 @@ namespace Baballonia.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Eyes for eyelid  的本地化字符串。
+        ///   查找类似 Eyelid calculation dominant eye 的本地化字符串。
         /// </summary>
         public static string Settings_EyelidMode_Header {
             get {

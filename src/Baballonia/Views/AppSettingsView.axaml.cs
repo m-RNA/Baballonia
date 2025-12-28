@@ -18,6 +18,7 @@ public partial class AppSettingsView : UserControl
     private readonly ComboBox _themeComboBox;
     private readonly ComboBox _langComboBox;
     private readonly ComboBox _eyelidModeCombo;
+    private readonly ComboBox _eyelidEnhancerTypeCombo;
     private readonly NumericUpDown _selectedMinFreqCutoffUpDown;
     private readonly NumericUpDown _selectedSpeedCutoffUpDown;
 
@@ -35,6 +36,9 @@ public partial class AppSettingsView : UserControl
 
         _eyelidModeCombo = this.Find<ComboBox>("EyelidModeCombo")!;
         _eyelidModeCombo.SelectionChanged += EyelidModeCombo_SelectionChanged;
+
+        _eyelidEnhancerTypeCombo = this.Find<ComboBox>("EyelidEnhancerTypeCombo")!;
+        _eyelidEnhancerTypeCombo.SelectionChanged += EyelidEnhancerTypeCombo_SelectionChanged;
 
         // Ensure the combo reflects the ViewModel value when DataContext is set or changed
         this.DataContextChanged += AppSettingsView_DataContextChanged;
@@ -108,6 +112,7 @@ public partial class AppSettingsView : UserControl
         _themeComboBox.SelectionChanged -= ThemeComboBox_SelectionChanged;
         _langComboBox.SelectionChanged -= LangComboBox_SelectionChanged;
         _eyelidModeCombo.SelectionChanged -= EyelidModeCombo_SelectionChanged;
+        _eyelidEnhancerTypeCombo.SelectionChanged -= EyelidEnhancerTypeCombo_SelectionChanged;
         this.DataContextChanged -= AppSettingsView_DataContextChanged;
     }
 
@@ -115,6 +120,7 @@ public partial class AppSettingsView : UserControl
     {
         if (DataContext is not AppSettingsViewModel vm) return;
 
+        // Set EyelidMode combo selection
         int index = vm.EyelidMode switch
         {
             "Both" => 0,
@@ -122,8 +128,17 @@ public partial class AppSettingsView : UserControl
             "RightOnly" => 2,
             _ => 0
         };
-
         _eyelidModeCombo.SelectedIndex = index;
+
+        // Set EyelidEnhancerType combo selection
+        index = vm.EyelidEnhancerType switch
+        {
+            "disabled" => 0,
+            "classifier" => 1,
+            "pfld" => 2,
+            _ => 1 // default to classifier
+        };
+        _eyelidEnhancerTypeCombo.SelectedIndex = index;
     }
 
     private void ThemeComboBox_SelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -158,6 +173,18 @@ public partial class AppSettingsView : UserControl
         // Use the invariant Tag value for the ViewModel/setting, Content is localized
         var tag = comboBoxItem.Tag?.ToString() ?? "Both";
         vm.EyelidMode = tag;
+    }
+
+    private void EyelidEnhancerTypeCombo_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (_eyelidEnhancerTypeCombo.SelectedItem is not ComboBoxItem comboBoxItem)
+            return;
+
+        if (DataContext is not AppSettingsViewModel vm) return;
+
+        // Use the invariant Tag value for the ViewModel/setting, Content is localized
+        var tag = comboBoxItem.Tag?.ToString() ?? "classifier";
+        vm.EyelidEnhancerType = tag;
     }
 
     // Workaround for https://github.com/AvaloniaUI/Avalonia/issues/4460

@@ -751,17 +751,29 @@
   <data name="Settings_SteamVR_Auto_Start_Description" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
+  <data name="Settings_Advanced_Header" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <data name="Settings_EyelidEnhancer_Header" xml:space="preserve">
     <value>增强眼皮追踪</value>
   </data>
   <data name="Settings_EyelidEnhancer_Description" xml:space="preserve">
-    <value>运行ETVR的眼追模型获取眼皮开合度（占用更多 GPU / CPU ）</value>
+    <value>再运行一个模型来计算眼皮开合度（会占用更多 GPU/CPU 资源）</value>
+  </data>
+  <data name="Settings_EyelidEnhancer_Disabled" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Settings_EyelidEnhancer_Classifier" xml:space="preserve">
+    <value>分类</value>
+  </data>
+  <data name="Settings_EyelidEnhancer_Smoother" xml:space="preserve">
+    <value>平滑（ETVR）</value>
   </data>
   <data name="Settings_EyelidMode_Header" xml:space="preserve">
     <value>眼皮开合度的主导眼</value>
   </data>
   <data name="Settings_EyelidMode_Description" xml:space="preserve">
-    <value>选择单眼可以减少GPU/CPU使用</value>
+    <value>增强平滑后，选择单眼可以减少GPU/CPU使用</value>
   </data>
   <data name="Settings_EyelidMode_Both" xml:space="preserve">
     <value>双眼</value>
